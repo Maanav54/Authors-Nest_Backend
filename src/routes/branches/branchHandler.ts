@@ -27,7 +27,7 @@ export async function createBranchHandler(request: FastifyRequest, reply: Fastif
             createdAt: admin.firestore.FieldValue.serverTimestamp(),
             updatedAt: admin.firestore.FieldValue.serverTimestamp(),
         };
-        const branchRef = await db.collection('branches').add(newBranch);
+        const branchRef = await db.collection('users').doc(userId).collection('branches').add(newBranch);
         reply.status(201).send({message:"branch created successfully" });
     } catch (error) {
         console.error("Error creating branch:", error);
