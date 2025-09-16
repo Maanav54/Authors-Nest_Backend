@@ -4,6 +4,7 @@ import branchRoutes from './routes/branches/index';
 import storyRoutes from './routes/story/index';
 import blobRoutes from './routes/blob/index';
 import userRoutes from './routes/users/index';
+import { commitRoutes } from './routes/commit/index';
 
 const app = Fastify({
     logger: false
@@ -21,6 +22,7 @@ app.register(branchRoutes);
 app.register(storyRoutes);
 app.register(blobRoutes);
 app.register(userRoutes);
+app.register(commitRoutes);
 
 app.get('/ping', async (request, reply) => {
   return { message: 'pong 🏓' }

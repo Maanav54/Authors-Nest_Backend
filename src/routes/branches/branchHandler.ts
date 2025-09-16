@@ -9,8 +9,8 @@ export async function createBranchHandler(request: FastifyRequest, reply: Fastif
     const userId = getUserId(request, reply);
     if (!userId) return;
     try {
-        const { id, name, head } = request.body as { name: string, id: string, head: string };
-        if (!name || !head || !id) {
+        const { name, head, storyID} = request.body as { name: string, head: string ,storyID:string};
+        if (!name || !head ||!storyID) {
             reply.status(400).send({ message: "name and description are required" });
             return;
         }
@@ -21,13 +21,13 @@ export async function createBranchHandler(request: FastifyRequest, reply: Fastif
         }
         const newBranch = {
             name,
-            id,
             head,
+            storyID,
             authorId: userId,
             createdAt: admin.firestore.FieldValue.serverTimestamp(),
             updatedAt: admin.firestore.FieldValue.serverTimestamp(),
         };
-        const branchRef = await db.collection('users').doc(userId).collection('branches').add(newBranch);
+        const branchRef = await db.collection('stories').doc(storyID).collection('branches').add(newBranch);
         reply.status(201).send({message:"branch created successfully" });
     } catch (error) {
         console.error("Error creating branch:", error);
